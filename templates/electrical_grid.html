@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    {% if title %}
+        <title>Electrical Grid</title>
+    {% else %}
+        <title>Electrical Grid</title>
+    {% endif %}
+</head>
+<body>
+    
+      <div class="bg-img">
+      <div class="centered" style="font-size: 60px"><b>Electrical Grid Stability Prediction</b></div>
+      </div>
+        
+    <div id="gridpage">
+        <h1>Electrical Grid Stability Prediction</h1>
+        The local stability of the four-node star electrical grid with centralized production is analyzed by implementing Decentral Smart Grid Control concept. The Decentral Smart Grid Control (DSGC) system introduces a real-time pricing, it ties the electricity price to the grid frequency so that it is available to all participants, i.e., all electricity consumers and producers. 
+        <br>Data Source: <a href="https://archive.ics.uci.edu/ml/datasets/Electrical+Grid+Stability+Simulated+Data+">Electrical Grid Stability Simulated Dataset</a><br>
+        <br><h5>Attribute Information:</h5>
+        <ul>
+          <li>tau[x]: reaction time of participant (real from the range [0.5,10]s). Tau1 - the value for electricity producer.</li>
+          <li>p[x]: nominal power consumed(negative)/produced(positive)(real). For consumers from the range [-0.5,-2]s^-2; p1 = abs(p2 + p3 + p4)</li>
+          <li>g[x]: coefficient (gamma) proportional to price elasticity (real from the range [0.05,1]s^-1). g1 - the value for electricity producer.</li>
+          <li>stab: the maximal real part of the characteristic equation root (if positive - the system is linearly unstable)(real)</li>
+          <li>stabf: the stability label of the system (categorical: stable/unstable)</li>
+        </ul><br>
+
+        Example - Input Values<br>
+        <img style="min-width: 600px" src="/static/input.png"/ class="center">
+    </div>
+
+    <div style="color:black; text-align: center">
+        <form action="{{ url_for('electrical_grid')}}" method="POST">
+            <h1>Electrical Grid Stability Predictor </h1><br>        
+            <label for="first"><strong>tau1 - the value for electricity producer &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input id="first" name="tau1" type="number" step="any" required="required"><br><br>
+
+            <label for="second"><strong>tau2 - reaction time of participant 1  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input id="second" name="tau2" type="number" step="any" required="required"><br><br>
+
+            <label for="third"><strong>tau3 - reaction time of participant 2  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input id="third" name="tau3" type="number" step="any" required="required"><br><br>
+
+            <label for="fourth"><strong>tau4 - reaction time of participant 3  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input id="fourth" name="tau4" type="number" step="any" required="required"><br><br>
+
+            <label for="fifth"><strong>P1 - nominal power produced(positive)  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input id="fifth" name="p1" type="number" step="any" required="required"><br><br>
+
+            <label for="sixth"><strong>P2- nominal power consumed(negative) by participant 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input id="sixth" name="p2" type="number" step="any" required="required"><br><br>
+
+            <label for="seventh"><strong>P3- nominal power consumed(negative) by participant 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input id="seventh" name="p3" type="number"  step="any" required="required"><br><br>
+
+            <label for="eighth"><strong>P4- nominal power consumed(negative) by participant 3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input name="p4" id="eighth" type="number" step="any" required="required"><br><br>
+
+            <label for="ninth"><strong>g1 - coefficient (gamma) for electricity producer &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input id="ninth" name="g1" type="number" step="any" required="required"><br><br>
+
+            <label for="tenth"><strong>g2 - coefficient (gamma) for electricity consumer 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input id="tenth" name="g2" type="number" step="any" required="required"><br><br>
+
+           <label for="eleventh"><strong>g3 - coefficient (gamma) for electricity consumer 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input name="g3" id="eleventh" type="number" step="any" required="required"><br><br>
+
+           <label for="eleventh"><strong>g4 - coefficient (gamma) for electricity consumer 3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></label> <input name="g4" id="twelfth" type="number" step="any" required="required">
+            <br><br><button id="sub" type="submit ">Predict</button>
+        </form>
+        <br><h3><div style="color: green">{{ prediction_text }}</div></h3>  
+    </div>   
+      
+    <style>
+
+        body {font-family: Arial, Helvetica, sans-serif;}
+        * {box-sizing: border-box;}
+        
+      .bg-img {
+          /* The image used */
+          background-image: url("/static/smart_grid.gif");
+
+          min-height: 400px;
+
+          /* Center and scale the image nicely */
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+
+          /* Needed to position the navbar */
+          position: relative;
+        }
+
+        /* Position the navbar container inside the image */
+        .container {
+          position: absolute;
+          margin: 20px;
+          width: auto;
+        }
+
+        .centered {
+            position: absolute;
+            top: 75%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+          }
+         
+        button {
+          background-color: #29AB87;
+          border: none;
+          color: white;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+          margin: 4px 2px;
+          cursor: pointer;
+        }
+
+    
+        #gridpage {
+          padding: 20px;
+          border-spacing: 15px;
+          text-align: justify;
+          border-bottom-left-radius: 25px;
+          border-bottom-right-radius: 25px;
+        }
+
+        #first {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        #second {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        #third {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        #fourth {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        #fifth {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        #sixth {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        #seventh {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        #eighth {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        #ninth {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        #tenth {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+        
+        #eleventh {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        #twelfth {
+            border-radius: 0px;
+            height: 30px;
+            font-size: 16px;
+            text-align: center;
+        }
+    </style>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>
